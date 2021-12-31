@@ -26,7 +26,8 @@
         </div>
         <div class="ingredient-group" id="cheeses">
             <h3>Choose your cheese:</h3>
-            <div th:each="ingredient : ${cheese}"><input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
+            <div th:each="ingredient : ${cheese}">
+                <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
                 <span th:text="${ingredient.name}">INGREDIENT</span><br/>
             </div>
         </div>

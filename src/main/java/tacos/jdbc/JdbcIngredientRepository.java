@@ -47,6 +47,5 @@ public class JdbcIngredientRepository implements IngredientRepository {
                 rs.getString("id"),
                 rs.getString("name"),
                 Ingredient.Type.valueOf(rs.getString("type")));
-
     }
 }
