@@ -21,6 +21,7 @@ import tacos.order.Order;
 @RequestMapping("/orders")
 @SessionAttributes("order")
 public class OrderController {
+    private String MODEL_ATTRIBUTE_ORDER = "order";
     private OrderRepository orderRepo;
 
     @Autowired
@@ -30,7 +31,9 @@ public class OrderController {
 
     @GetMapping("/current")
     public String orderForm(Model model) {
-        model.addAttribute("order", new Order());
+//        if(model.getAttribute(MODEL_ATTRIBUTE_ORDER) == null){
+//            model.addAttribute("order", new Order());
+//        }
         return "orderForm";
     }
 
