@@ -20,6 +20,6 @@ public class IngredientByIdConverter
 
     @Override
     public Ingredient convert(String id) {
-        return ingredientRepo.findOne(id);
+        return ingredientRepo.findById(id).get();
     }
 }
