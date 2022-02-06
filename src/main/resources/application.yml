@@ -1,0 +1,30 @@
+#DEFAULT CONFIGURATIONS
+logging:
+  level:
+    tacos: DEBUG
+
+server:
+  port: 9090
+
+taco:
+  orders:
+    pageSize: 10
+---
+#PRODUCTION CONFIGURATIONS
+spring:
+  profiles: prod
+#    active:    Worst way for profile activation.
+#      - prod That option makes profile default profile.
+#For profile activation sets SPRING_PROFILES_ACTIVE environment variable on the production machine:
+# - % export SPRING_PROFILES_ACTIVE=prod
+# - % java -jar taco-cloud.jar --spring.profiles.active=prod
+# - % export SPRING_PROFILES_ACTIVE=prod,audit,ha (more the one active profiles)
+
+datasource:
+  url: jdbc:mysql://localhost/tacocloud
+  username: tacouser
+  password: tacopassword
+
+logging:
+  level:
+    tacos: WARN
