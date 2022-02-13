@@ -1,6 +1,7 @@
 package tacos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,9 +14,19 @@ import tacos.security.User;
 public class UserRepositoryUserDetailsService implements UserDetailsService {
     private UserRepository userRepo;
 
+    @Value("${spring.security.user.name}")
+    private String defaultUserName;
+
+    @Value("${spring.security.user.password}")
+    private String defaultUserPassword;
+
+    @Value("${spring.security.user.roles}")
+    private String defaultUserRole;
+
     @Autowired
     public UserRepositoryUserDetailsService(UserRepository userRepo) {
         this.userRepo = userRepo;
+        generateDefaultUser();
     }
 
     @Override
@@ -25,5 +36,21 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
             return user;
         }
         throw new UsernameNotFoundException("User '" + username + "' not found");
+    }
+
+    private User generateDefaultUser(){
+        User defaultUser = userRepo.findByUsername(defaultUserName);
+        if(defaultUser == null){
+            defaultUser = new User(defaultUserName,
+                    defaultUserPassword,
+                    "defaultUserName",
+                    "defaultUserStreet",
+                    "defaultUserCity",
+                    "defaultUserState",
+                    "DefaultUserZip",
+                    "(000)000-00-00");
+            userRepo.save(defaultUser);
+        }
+        return defaultUser;
     }
 }

@@ -9,6 +9,7 @@ server:
 taco:
   orders:
     pageSize: 10
+
 ---
 #PRODUCTION CONFIGURATIONS
 spring:
