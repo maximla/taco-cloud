@@ -1,7 +1,6 @@
 package tacos.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+
+import tacos.jdbc.UserRepository;
+import tacos.service.UserRepositoryUserDetailsService;
 
 
 @Configuration
@@ -36,15 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    DataSource dataSource;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /**
          * Authorisation restrictions (permissions)
          */
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/design", "/orders")
                 .access("hasRole('user_role')")
@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
+                .userDetailsService(getUserDetails())
                 .passwordEncoder(encoder());
 
 
@@ -145,5 +145,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder encoder() {
         return new SCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService getUserDetails(){
+        return new UserRepositoryUserDetailsService(getApplicationContext().getBean(UserRepository.class),
+                getApplicationContext().getBean(PasswordEncoder.class));
     }
 }
