@@ -44,14 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * Authorisation restrictions (permissions)
          */
         http
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/design", "/orders")
-                .access("hasRole('user_role')")
-                .antMatchers("/", "/**")
-                .access("permitAll")
-
+                .antMatchers("/design").hasRole("user_role")
+//                .antMatchers("/orders").hasRole("user_role")
+                .antMatchers("/", "/**").permitAll()
                 .and()
+                .csrf()
+                .disable()//Disabling of CSRF protection
+
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
@@ -60,14 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/design", true)
                 .failureUrl("/login")
                 .permitAll()
-
                 .and()
+                .csrf()
+                .disable() //Disabling of CSRF protection
+
                 .logout()
                 .logoutSuccessUrl("/")
 
-//                .and()
-//                .csrf()
-//                .disable() //Disabling of CSRF protection
+                .and()
+                .csrf()
+                .disable() //Disabling of CSRF protection
         ;
 
 
