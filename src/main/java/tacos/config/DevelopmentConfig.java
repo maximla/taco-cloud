@@ -14,6 +14,11 @@ import tacos.jdbc.UserRepository;
 public class DevelopmentConfig {
     @Bean
     public CommandLineRunner dataLoader(IngredientRepository repo, UserRepository userRepo, PasswordEncoder encoder) {
+
+        /**
+         * alter table Taco_Ingredients add foreign key (taco) references Taco(id)
+         * https://github.com/habuma/spring-in-action-5-samples/blob/master/ch06/tacos/src/main/java/tacos/DevelopmentConfig.java
+         */
         return null;
     }
 }
