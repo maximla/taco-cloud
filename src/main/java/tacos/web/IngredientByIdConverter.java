@@ -1,17 +1,13 @@
-package tacos.converter;
-
-import java.util.Optional;
+package tacos.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import tacos.jdbc.IngredientRepository;
-import tacos.product.Ingredient;
+import tacos.Ingredient;
 
 @Component
-public class IngredientByIdConverter
-        implements Converter<String, Ingredient> {
+public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
     private IngredientRepository ingredientRepo;
 
@@ -22,8 +18,7 @@ public class IngredientByIdConverter
 
     @Override
     public Ingredient convert(String id) {
-        Optional<Ingredient> optionalIngredient = ingredientRepo.findById(id);
-        return optionalIngredient.isPresent() ?
-                optionalIngredient.get() : null;
+        return ingredientRepo.findById(id);
     }
+
 }
