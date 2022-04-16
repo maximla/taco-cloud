@@ -11,4 +11,9 @@ public class Ingredient {
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
+
+    @Override
+    public String toString(){
+        return id;
+    }
 }
