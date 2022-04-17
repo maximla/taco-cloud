@@ -1,11 +1,12 @@
 package tacos;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -19,11 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
+@Sql(scripts={"classpath:schema.sql", "classpath:data.sql"})
+//@Sql(scripts = {"/schema.sql", "/data.sql"})
 public class DesignTacoControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
+    @MockBean
     IngredientRepository ingredientRepository;
 
     @Test
@@ -49,7 +52,7 @@ public class DesignTacoControllerTest {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/design")
                 .param("name", "abc")
-                .param("ingredients", new String[]{ingredientRepository.findAll().get(0).getId()})
+                .param("ingredients", new String[]{ ingredientRepository.findAll().iterator().next().getId()})
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -73,7 +76,7 @@ public class DesignTacoControllerTest {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/design")
                 .param("name", "abcde")
-                .param("ingredients", new String[]{ingredientRepository.findAll().get(0).getId()})
+                .param("ingredients", new String[]{ingredientRepository.findAll().iterator().next().getId()})
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is3xxRedirection())
