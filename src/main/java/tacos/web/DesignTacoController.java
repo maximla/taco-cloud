@@ -1,11 +1,8 @@
 package tacos.web;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +29,6 @@ public class DesignTacoController {
     @Autowired
     private IngredientRepository ingredientRepo;
 
-    @Autowired
-    HttpServletRequest request;
-
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = ingredientRepo.findAll();
@@ -60,14 +54,6 @@ public class DesignTacoController {
         // We'll do this in chapter 3
         log.info("Processing design: " + design);
         return "redirect:/orders/current";
-    }
-
-    static String getRequestBody(HttpServletRequest request) throws IOException {
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            Scanner s = new Scanner(request.getInputStream(), "UTF-8").useDelimiter("\\A");
-            return s.hasNext() ? s.next() : "";
-        }
-        return "";
     }
 
     private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {

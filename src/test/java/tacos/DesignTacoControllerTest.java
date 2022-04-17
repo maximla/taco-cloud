@@ -17,10 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
-//@WebMvcTest(DesignTacoController.class)
-//@Import(TestConfig.class)
-//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
 public class DesignTacoControllerTest {
@@ -83,6 +79,4 @@ public class DesignTacoControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/orders/current"));
     }
-
-
 }
