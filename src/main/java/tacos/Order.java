@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,18 +28,23 @@ import lombok.Data;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date placedAt;
     @NotBlank(message = "Name is required")
+    @Column(name = "delivery_name")
     private String name;
     @NotBlank(message = "Street is required")
+    @Column(name = "delivery_street")
     private String street;
     @NotBlank(message = "City is required")
+    @Column(name = "delivery_city")
     private String city;
     @NotBlank(message = "State is required")
+    @Column(name = "delivery_state")
     private String state;
     @NotBlank(message = "Zip code is required")
+    @Column(name = "delivery_zip")
     private String zip;
     @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;

@@ -32,7 +32,7 @@ create table if not exists Taco_Order
     delivery_name   varchar(50) not null,
     delivery_street varchar(50) not null,
     delivery_city   varchar(50) not null,
-    delivery_state  varchar(2)  not null,
+    delivery_state  varchar(20)  not null,
     delivery_zip    varchar(10) not null,
     cc_number       varchar(16) not null,
     cc_expiration   varchar(5)  not null,
@@ -43,10 +43,10 @@ create table if not exists Taco_Order
 create table if not exists Taco_Order_Tacos
 (
     order_id bigint not null,
-    taco_id  bigint not null
+    tacos_id  bigint not null
 );
 
 alter table Taco_Order_Tacos
     add foreign key (order_id) references Taco_Order (id);
 alter table Taco_Order_Tacos
-    add foreign key (taco_id) references Taco (id);
+    add foreign key (tacos_id) references Taco (id);

@@ -42,17 +42,6 @@ public class DesignTacoController {
         this.designRepo = designRepo;
     }
 
-    @Deprecated
-    @ModelAttribute
-    public void addIngredientsToModel(Model model) {
-        Iterable<Ingredient> ingredients = ingredientRepo.findAll();
-        Type[] types = Ingredient.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingredients, type));
-        }
-    }
-
     @GetMapping
     public String showDesignForm(Model model) {
         List<Ingredient> ingredients = new ArrayList<>();
@@ -84,6 +73,13 @@ public class DesignTacoController {
         }
         Taco saved = designRepo.save(taco);
         order.addDesign(saved);
+        order.setStreet("street");
+        order.setCity("city");
+        order.setState("state");
+        order.setZip("123123");
+        order.setCcNumber("1111222233334444");
+        order.setCcExpiration("11/11");
+        order.setCcCVV("123");
         return "redirect:/orders/current";
     }
 

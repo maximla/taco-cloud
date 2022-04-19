@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity
 public class Taco {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
