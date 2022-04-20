@@ -32,7 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/design", "/orders")
                 .access("hasRole('USER')")
-                .antMatchers("/", "/**").access("anonymous");
+                .antMatchers("/", "/**").access("anonymous")
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/design")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/");
     }
 
     @Bean
