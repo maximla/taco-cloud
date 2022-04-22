@@ -1,5 +1,23 @@
 drop table Taco_Ingredients if exists;
 drop table Taco_Order_Tacos if exists;
+drop table User if exists;
+
+create table if not exists User
+(
+    id identity,
+    username                varchar_ignorecase(50)  not null,
+    password                varchar_ignorecase(100) not null,
+    full_name               varchar_ignorecase(50)  not null,
+    street                  varchar_ignorecase(50)  not null,
+    city                    varchar_ignorecase(50)  not null,
+    state                   varchar_ignorecase(50)  not null,
+    zip                     varchar_ignorecase(10)  not null,
+    phone_number            varchar_ignorecase(20)  not null,
+    enabled                 boolean                 not null,
+    account_non_expired     boolean                 not null,
+    account_non_locked      boolean                 not null,
+    credentials_non_expired boolean                 not null
+);
 
 create table if not exists Ingredient
 (
@@ -10,7 +28,7 @@ create table if not exists Ingredient
 
 create table if not exists Taco
 (
-    id         identity,
+    id identity,
     name       varchar(50) not null,
     created_at timestamp   not null
 );
@@ -28,11 +46,11 @@ alter table Taco_Ingredients
 
 create table if not exists Taco_Order
 (
-    id              identity,
+    id identity,
     delivery_name   varchar(50) not null,
     delivery_street varchar(50) not null,
     delivery_city   varchar(50) not null,
-    delivery_state  varchar(20)  not null,
+    delivery_state  varchar(20) not null,
     delivery_zip    varchar(10) not null,
     cc_number       varchar(16) not null,
     cc_expiration   varchar(5)  not null,
@@ -43,7 +61,7 @@ create table if not exists Taco_Order
 create table if not exists Taco_Order_Tacos
 (
     order_id bigint not null,
-    tacos_id  bigint not null
+    tacos_id bigint not null
 );
 
 alter table Taco_Order_Tacos

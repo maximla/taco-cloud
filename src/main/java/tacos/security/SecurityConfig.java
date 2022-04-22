@@ -16,8 +16,12 @@ import tacos.data.UserRepository;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public SecurityConfig(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
