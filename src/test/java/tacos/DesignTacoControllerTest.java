@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import tacos.data.IngredientRepository;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -18,15 +21,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
-//@Sql(scripts={"classpath:schema.sql", "classpath:data.sql"})
-//@Sql("/schema.sql")
-//@Sql("/data.sql")
+@WebAppConfiguration
+@WithMockUser(value = "user", password = "123")
 public class DesignTacoControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    IngredientRepository ingredientRepository;
+    private IngredientRepository ingredientRepository;
 
     @Test
     public void testDesignPage() throws Exception {
@@ -41,7 +43,8 @@ public class DesignTacoControllerTest {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/design")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("design"));
     }
@@ -53,7 +56,8 @@ public class DesignTacoControllerTest {
                 .param("name", "abc")
                 .param("ingredients", new String[]{ ingredientRepository.findAll().iterator().next().getId()})
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("design"));
     }
@@ -65,7 +69,8 @@ public class DesignTacoControllerTest {
                 .param("name", "abcde")
                 .param("ingredients", new String[]{""})
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("design"));
     }
@@ -77,7 +82,8 @@ public class DesignTacoControllerTest {
                 .param("name", "abcde")
                 .param("ingredients", new String[]{ingredientRepository.findAll().iterator().next().getId()})
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/orders/current"));
     }

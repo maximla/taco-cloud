@@ -5,18 +5,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import tacos.security.DefaultUserSupplier;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
+@WebAppConfiguration
+@WithMockUser(value = "user", password = "123")
 public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private DefaultUserSupplier defaultUserSupplier;
 
 //    @Test
 //    public void testOrderForm() throws Exception {
@@ -31,7 +42,8 @@ public class OrderControllerTest {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("orderForm"));
     }
@@ -49,7 +61,9 @@ public class OrderControllerTest {
                 .param("ccExpiration", "12/12")
                 .param("ccCVV", "123")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(user(defaultUserSupplier.get()))
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
     }
