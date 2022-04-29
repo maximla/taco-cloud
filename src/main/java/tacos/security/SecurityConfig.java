@@ -15,7 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(PasswordEncoderHolder passwordEncoderHolder, UserDetailsService userDetailsService){
+    public SecurityConfig(PasswordEncoderHolder passwordEncoderHolder, UserDetailsService userDetailsService) {
         this.passwordEncoderHolder = passwordEncoderHolder;
         this.userDetailsService = userDetailsService;
     }
@@ -40,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/design")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .httpBasic();
+                .logoutSuccessUrl("/");
     }
 }

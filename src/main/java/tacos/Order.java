@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
@@ -59,6 +60,7 @@ public class Order implements Serializable {
     private List<Taco> tacos = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void addDesign(Taco design) {

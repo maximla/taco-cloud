@@ -47,6 +47,7 @@ alter table Taco_Ingredients
 create table if not exists Taco_Order
 (
     id identity,
+    user_id         bigint      not null,
     delivery_name   varchar(50) not null,
     delivery_street varchar(50) not null,
     delivery_city   varchar(50) not null,

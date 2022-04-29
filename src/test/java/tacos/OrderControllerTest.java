@@ -1,5 +1,6 @@
 package tacos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,7 +11,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import tacos.security.DefaultUserSupplier;
+import tacos.data.UserRepository;
+import tacos.security.DefaultUserHolder;
+import tacos.security.PasswordEncoderHolder;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -21,13 +24,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
-@WithMockUser(value = "user", password = "123")
 public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private DefaultUserSupplier defaultUserSupplier;
+    private DefaultUserHolder defaultUserHolder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoderHolder passwordEncoderHolder;
+
+    @BeforeEach
+    public void init() {
+        User defaultUser = userRepository.findByUsername(defaultUserHolder.DEFAULT_USER_USER_NAME);
+        if(defaultUser == null){
+            User finalUser = new User(defaultUserHolder.DEFAULT_USER_USER_NAME,
+                    passwordEncoderHolder.getInstance().encode(defaultUserHolder.DEFAULT_USER_PASSWORD),
+                    defaultUserHolder.DEFAULT_USER_NAME,
+                    defaultUserHolder.DEFAULT_USER_STREET,
+                    defaultUserHolder.DEFAULT_USER_CITY,
+                    defaultUserHolder.DEFAULT_USER_STATE,
+                    defaultUserHolder.DEFAULT_USER_ZIP,
+                    defaultUserHolder.DEFAULT_USER_PN);
+            userRepository.save(finalUser);
+            defaultUserHolder.setUser(finalUser);
+        }
+    }
 
 //    @Test
 //    public void testOrderForm() throws Exception {
@@ -38,6 +63,7 @@ public class OrderControllerTest {
 //    }
 
     @Test
+    @WithMockUser(value = "user", password = "123")
     public void testProcessOrderInvalid() throws Exception {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/orders")
@@ -62,7 +88,7 @@ public class OrderControllerTest {
                 .param("ccCVV", "123")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .with(user(defaultUserSupplier.get()))
+                .with(user(defaultUserHolder.getUser()))
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
