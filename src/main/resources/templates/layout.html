@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
+
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()">
+        <form method="POST" th:action="@{/logout}">
+            <input type="submit" value="Logout"/>
+        </form>
+    </div>
+    <section layout:fragment="content">
+        <p>This is filled by the content template.</p>
+    </section>
+</body>
+</html>

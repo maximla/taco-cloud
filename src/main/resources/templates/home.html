@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
 <head>
-    <title>Taco Cloud</title>
+    <title>Home</title>
 </head>
 <body>
-    <div sec:authorize="isAuthenticated()">
-        <form method="POST" th:action="@{/logout}">
-            <input type="submit" value="Logout"/>
-        </form>
+    <div layout:fragment="content">
+        <h1>Welcome to...</h1>
+        <img th:src="@{/images/TacoCloud.png}"/>
     </div>
-    <h1>Welcome to...</h1>
-    <img th:src="@{/images/TacoCloud.png}"/>
 </body>
 </html>
