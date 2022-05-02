@@ -1,12 +1,3 @@
-#logging:
-#  path: /var/logs/
-#  file: TacoCloud.log
-#  level:
-#    root: WARN
-#    org:
-#      springframework:
-#        security: DEBUG
-
 server:
   port: 8443
   ssl:
