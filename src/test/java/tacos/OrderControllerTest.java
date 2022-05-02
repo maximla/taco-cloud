@@ -17,6 +17,8 @@ import tacos.security.PasswordEncoderHolder;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -54,13 +56,14 @@ public class OrderControllerTest {
         }
     }
 
-//    @Test
-//    public void testOrderForm() throws Exception {
-//        mockMvc.perform(get("/orders/current"))
-//                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("orderForm"));
-//    }
+    @Test
+    @WithMockUser(value = "user", password = "123")
+    public void testOrderForm() throws Exception {
+        mockMvc.perform(get("/orders"))
+                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("orderList"));
+    }
 
     @Test
     @WithMockUser(value = "user", password = "123")

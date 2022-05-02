@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+<head>
+    <title>Order list</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Order list</h1>
+    <img th:src="@{/images/TacoCloud.png}"/>
+    <div th:if="${orders.size() == 0}">
+        There are no orders yet.
+    </div>
+    <div th:if="${orders.size() != 0}">
+        <ul>
+            <li  th:each="order : ${orders}">
+                <span th:text="${order.getPlacedAt()}"></span>
+                <span th:text="${order.getName()}"></span>
+                <span th:text="${order.getTacos().size() + ' tacos'}"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

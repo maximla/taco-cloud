@@ -2,9 +2,14 @@ package tacos.web;
 
 import javax.validation.Valid;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,11 +26,14 @@ import tacos.data.OrderRepository;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
+@ConfigurationProperties(prefix="taco.orders")
 public class OrderController {
-    private OrderRepository orderRepo;
+    private OrderRepository orderRepository;
+    private OrderProperties orderProperties;
 
-    public OrderController(OrderRepository orderRepo) {
-        this.orderRepo = orderRepo;
+    public OrderController(OrderRepository orderRepository, OrderProperties orderProperties) {
+        this.orderRepository = orderRepository;
+        this.orderProperties = orderProperties;
     }
 
     @GetMapping("/current")
@@ -44,8 +52,15 @@ public class OrderController {
                 SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         order.setUser(user);
-        orderRepo.save(order);
+        orderRepository.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @GetMapping
+    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+        Pageable pageable = PageRequest.of(0, orderProperties.getPageSize());
+        model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+        return "orderList";
     }
 }
