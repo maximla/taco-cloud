@@ -1,0 +1,25 @@
+server:
+  port: 8443
+  ssl:
+    key-store: file:src/main/resources/ssh/mykeys.jks
+    key-store-password: ',jyb14082010'
+    key-password: ',jyb14082010'
+
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: 'jdbc:mysql://localhost/taco_cloud'
+    username: 'root'
+    password: ',jyb14082010'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  devtools:
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: true
