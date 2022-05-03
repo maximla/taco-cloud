@@ -2,6 +2,18 @@ taco:
   orders:
     pageSize: 10
 
+security:
+  user:
+    default:
+      userName: user
+      password: 123
+      name: Din
+      street: 'Wall Street'
+      city: 'New York City'
+      state: 'New-York'
+      zip: 10005
+      phoneNumber: '+1 770-937-9735'
+
 server:
   port: 8443
   ssl:

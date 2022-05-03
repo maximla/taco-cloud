@@ -26,7 +26,7 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if(username.equals(defaultUserHolder.DEFAULT_USER_USER_NAME)){
+        if(username.equals(defaultUserHolder.getUserName())){
             initDefaultUser();
         }
         User user = userRepository.findByUsername(username);
@@ -38,16 +38,16 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     }
 
     private void initDefaultUser(){
-        User defaultUser = userRepository.findByUsername(defaultUserHolder.DEFAULT_USER_USER_NAME);
+        User defaultUser = userRepository.findByUsername(defaultUserHolder.getUserName());
         if(defaultUser == null){
-            User finalUser = new User(defaultUserHolder.DEFAULT_USER_USER_NAME,
-                    passwordEncoderHolder.getInstance().encode(defaultUserHolder.DEFAULT_USER_PASSWORD),
-                    defaultUserHolder.DEFAULT_USER_NAME,
-                    defaultUserHolder.DEFAULT_USER_STREET,
-                    defaultUserHolder.DEFAULT_USER_CITY,
-                    defaultUserHolder.DEFAULT_USER_STATE,
-                    defaultUserHolder.DEFAULT_USER_ZIP,
-                    defaultUserHolder.DEFAULT_USER_PN);
+            User finalUser = new User(defaultUserHolder.getUserName(),
+                    passwordEncoderHolder.getInstance().encode(defaultUserHolder.getPassword()),
+                    defaultUserHolder.getName(),
+                    defaultUserHolder.getStreet(),
+                    defaultUserHolder.getCity(),
+                    defaultUserHolder.getState(),
+                    defaultUserHolder.getZip(),
+                    defaultUserHolder.getPhoneNumber());
             userRepository.save(finalUser);
             defaultUserHolder.setUser(finalUser);
         }
