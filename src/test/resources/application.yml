@@ -1,3 +1,24 @@
+name: common-YAML
+
+spring:
+  config:
+    activate:
+      on-profile: common
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  devtools:
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: true
+
 taco:
   orders:
     pageSize: 10
@@ -14,6 +35,19 @@ security:
       zip: 10005
       phoneNumber: '+1 770-937-9735'
 
+---
+
+name: home-YAML
+
+spring:
+  config:
+    activate:
+      on-profile: home
+  datasource:
+    url: 'jdbc:mysql://localhost/taco_cloud'
+    username: 'root'
+    password: ',jyb14082010'
+
 server:
   port: 8443
   ssl:
@@ -21,21 +55,18 @@ server:
     key-store-password: ',jyb14082010'
     key-password: ',jyb14082010'
 
+---
+
+name: work-YAML
+
 spring:
-  sql:
-    init:
-      mode: always
+  config:
+    activate:
+      on-profile: work
   datasource:
-    url: 'jdbc:mysql://localhost/taco_cloud'
-    username: 'root'
-    password: ',jyb14082010'
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: none
-    defer-datasource-initialization: true
-  devtools:
-    restart:
-      enabled: true
-  thymeleaf:
-    cache: true
+    url: 'jdbc:mysql://localhost/tacoCloud'
+    username: 'abc'
+    password: 'abc'
+
+server:
+  port: 8080
