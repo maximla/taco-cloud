@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
-@WithMockUser(value = "user", password = "123")
+@WithMockUser(value = "${security.user.default.userName}", password = "${security.user.default.password}")
 public class DesignTacoControllerTest {
     @Autowired
     private MockMvc mockMvc;

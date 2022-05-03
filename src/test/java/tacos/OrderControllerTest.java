@@ -57,7 +57,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "user", password = "123")
+    @WithMockUser(value = "${security.user.default.userName}", password = "${security.user.default.password}")
     public void testOrderForm() throws Exception {
         mockMvc.perform(get("/orders"))
                 .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")))
@@ -66,7 +66,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "user", password = "123")
+    @WithMockUser(value = "${security.user.default.userName}", password = "${security.user.default.password}")
     public void testProcessOrderInvalid() throws Exception {
         mockMvc.perform( MockMvcRequestBuilders
                 .post("/orders")
