@@ -1,3 +1,5 @@
+#What profile would be executed depends on the system environment variable named SPRING_CONFIG_ACTIVE
+
 name: common-YAML
 
 spring:
