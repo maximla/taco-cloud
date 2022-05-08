@@ -12,7 +12,7 @@ import tacos.security.PasswordEncoderHolder;
 @Profile({"home", "!work"})
 @Configuration
 public class DevelopmentConfig {
-    @Bean
+@Bean
     public CommandLineRunner dataLoader(IngredientRepository repo,
                                         UserRepository userRepo,
                                         PasswordEncoderHolder passwordEncoderHolder) {
