@@ -2,7 +2,6 @@ package tacos.web;
 
 import javax.validation.Valid;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -12,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -26,7 +28,6 @@ import tacos.data.OrderRepository;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("order")
-@ConfigurationProperties(prefix="taco.orders")
 public class OrderController {
     private OrderRepository orderRepository;
     private OrderProperties orderProperties;
@@ -62,5 +63,13 @@ public class OrderController {
         Pageable pageable = PageRequest.of(0, orderProperties.getPageSize());
         model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
         return "orderList";
+    }
+
+    @PutMapping(path="/{orderId}", consumes="application/json")
+    public Order putOrder(
+            @PathVariable("orderId") Long orderId,
+            @RequestBody Order order) {
+        order.setId(orderId);
+        return orderRepository.save(order);
     }
 }
