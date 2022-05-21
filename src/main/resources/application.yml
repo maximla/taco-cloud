@@ -4,6 +4,9 @@ spring:
   config:
     activate:
       on-profile: common
+  data:
+    rest:
+      base-path: /data-api
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:

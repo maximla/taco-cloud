@@ -6,18 +6,18 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import tacos.Ingredient;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Relation(value="taco",collectionRelation = "tacos")
 public class TacoModel extends RepresentationModel<TacoModel> {
-    @Getter
-    private final String name;
-    @Getter
-    private final Date createdAt;
-    @Getter
-    private final CollectionModel<Ingredient> ingredients;
+    private String name;
+    private Date createdAt;
+    private CollectionModel<Ingredient> ingredients;
 }
 

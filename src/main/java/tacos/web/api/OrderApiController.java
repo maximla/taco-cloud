@@ -19,11 +19,11 @@ import tacos.data.OrderRepository;
 @RestController
 @RequestMapping(path = "/api/order", produces = "application/json")
 @CrossOrigin(origins = "*")
-public class OrderController {
+public class OrderApiController {
     private OrderRepository orderRepository;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository) {
+    public OrderApiController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 

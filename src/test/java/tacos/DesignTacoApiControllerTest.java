@@ -39,7 +39,7 @@ public class DesignTacoApiControllerTest {
 
     @Test
     public void testRecentTacos() throws Exception {
-        mockMvc.perform(get("/apiDesign/recent"))
+        mockMvc.perform(get("/apiDesign/tacos/recent"))
                 .andExpect(content().contentType(MediaType.valueOf("application/json")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());

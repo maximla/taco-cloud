@@ -63,7 +63,7 @@ public class DesignTacoApiController {
 
     @GetMapping("/tacos/recent")
     public ResponseEntity<CollectionModel<TacoModel>> recentTacos(){
-        PageRequest pageRequest = PageRequest.of(0,2, Sort.by("createAt").descending());
+        PageRequest pageRequest = PageRequest.of(0,2, Sort.by("createdAt").descending());
         Iterable<Taco> tacos = tacoRepository.findAll(pageRequest);
         CollectionModel<TacoModel> collections = new TacoModelAssembler().toCollectionModel(tacos);
         if (tacos.iterator().hasNext()){
