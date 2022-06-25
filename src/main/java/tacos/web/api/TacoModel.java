@@ -14,7 +14,7 @@ import tacos.Ingredient;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Relation(value="taco",collectionRelation = "tacos")
+@Relation(value = "taco", collectionRelation = "tacos")
 public class TacoModel extends RepresentationModel<TacoModel> {
     private String name;
     private Date createdAt;

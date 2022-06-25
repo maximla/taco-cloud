@@ -29,13 +29,13 @@ import tacos.data.TacoRepository;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
-public class DesignTacoController {
+public class TacoController {
     private final IngredientRepository ingredientRepo;
 
     private final TacoRepository designRepo;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository designRepo) {
+    public TacoController(IngredientRepository ingredientRepo, TacoRepository designRepo) {
         this.ingredientRepo = ingredientRepo;
         this.designRepo = designRepo;
     }

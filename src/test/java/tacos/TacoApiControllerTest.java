@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TacoCloudApplication.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
-public class DesignTacoApiControllerTest {
+public class TacoApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,7 +39,7 @@ public class DesignTacoApiControllerTest {
 
     @Test
     public void testRecentTacos() throws Exception {
-        mockMvc.perform(get("/apiDesign/tacos/recent"))
+        mockMvc.perform(get("/api/tacos/recent"))
                 .andExpect(content().contentType(MediaType.valueOf("application/json")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
@@ -47,7 +47,7 @@ public class DesignTacoApiControllerTest {
 
     @Test
     public void testGetTacoById() throws Exception {
-        mockMvc.perform(get("/apiDesign/0")
+        mockMvc.perform(get("/api/tacos/0")
                 .contentType(MediaType.valueOf("application/json")))
                 .andExpect(status().isNotFound());
     }
@@ -64,7 +64,7 @@ public class DesignTacoApiControllerTest {
         String json = ow.writeValueAsString(taco);
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/apiDesign")
+                .post("/api/tacos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .accept(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ public class DesignTacoApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> map = mapper.readValue(result.getResponse().getContentAsString(), Map.class);
 
-        mockMvc.perform(get(String.format( "/apiDesign/%d", map.get("id")))
+        mockMvc.perform(get(String.format( "/api/tacos/%d", map.get("id")))
                 .contentType(MediaType.valueOf("application/json")))
                 .andExpect(content().contentType(MediaType.valueOf("application/json")))
                 .andExpect(status().isOk());

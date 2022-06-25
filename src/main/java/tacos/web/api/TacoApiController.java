@@ -21,14 +21,14 @@ import tacos.Taco;
 import tacos.data.TacoRepository;
 
 @RestController
-@RequestMapping(path = "/apiDesign", produces = "application/json")
-@CrossOrigin(origins = "*")
-public class DesignTacoApiController {
+@RequestMapping(path = "/api/tacos", produces = "application/json")
+@CrossOrigin(origins= {"http://localhost:8080", "https://localhost:8443"})
+public class TacoApiController {
     private TacoRepository tacoRepository;
 
 
     @Autowired
-    public DesignTacoApiController(TacoRepository tacoRepository) {
+    public TacoApiController(TacoRepository tacoRepository) {
         this.tacoRepository = tacoRepository;
     }
 
@@ -61,7 +61,7 @@ public class DesignTacoApiController {
 //        return recentResources;
 //    }
 
-    @GetMapping("/tacos/recent")
+    @GetMapping("/recent")
     public ResponseEntity<CollectionModel<TacoModel>> recentTacos(){
         PageRequest pageRequest = PageRequest.of(0,2, Sort.by("createdAt").descending());
         Iterable<Taco> tacos = tacoRepository.findAll(pageRequest);

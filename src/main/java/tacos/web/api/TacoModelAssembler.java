@@ -10,7 +10,7 @@ import tacos.Taco;
 
 public class TacoModelAssembler extends RepresentationModelAssemblerSupport<Taco, TacoModel> {
     public TacoModelAssembler() {
-        super(DesignTacoApiController.class, TacoModel.class);
+        super(TacoApiController.class, TacoModel.class);
     }
 
     @Override
