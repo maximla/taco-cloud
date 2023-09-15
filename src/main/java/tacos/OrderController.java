@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import tacos.data.OrderRepository;
 
@@ -26,6 +27,7 @@ public class OrderController {
 
     @GetMapping("/current")
     public String orderForm(@ModelAttribute TacoOrder tacoOrder) {
+        fillDefaultData(tacoOrder);
         return "orderForm";
     }
 
@@ -37,5 +39,39 @@ public class OrderController {
         orderRepo.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    private void fillDefaultData(@NonNull TacoOrder tacoOrder){
+        if(Utils.isNullOrEmpty(tacoOrder.getDeliveryName())){
+            tacoOrder.setDeliveryName("Name");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getDeliveryStreet())){
+            tacoOrder.setDeliveryStreet("Street");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getDeliveryCity())){
+            tacoOrder.setDeliveryCity("City");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getDeliveryState())){
+            tacoOrder.setDeliveryState("State");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getDeliveryZip())){
+            tacoOrder.setDeliveryZip("1234");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getCcNumber())){
+            tacoOrder.setCcNumber("378282246310005");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getCcExpiration())){
+            tacoOrder.setCcExpiration("11/24");
+        }
+
+        if(Utils.isNullOrEmpty(tacoOrder.getCcCVV())){
+            tacoOrder.setCcCVV("123");
+        }
     }
 }
