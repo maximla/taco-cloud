@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-@Table
+@Table //JDBC annotation
 public class TacoOrder {
     private static final long serialVersionUID = 1L;
     @Id

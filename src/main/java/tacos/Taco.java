@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-@Table
+@Table //JDBC annotation
 public class Taco {
     @Id
     private Long id;
